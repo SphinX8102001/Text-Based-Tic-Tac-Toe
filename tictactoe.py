@@ -12,12 +12,12 @@ import os
 from colorama import Fore,Style
 import time
 import sys
-class TicTacToe:
+class Tic_Tac_Toe:
     def __init__(self):
         print("tic-tac-toe")
         duck = r'''
-   _
- _(o)>
+    _
+  _(o)>
  \ (.)
   `--'
 '''
@@ -147,18 +147,20 @@ class TicTacToe:
             iswrongmove=True
         elif self.eight != '8' and move=='8':
             iswrongmove=True
+        elif move.isdigit() == False:
+            iswrongmove=True
         elif int(move)<0 or int(move)>8:
             iswrongmove=True
 
         return iswrongmove
-def PlayTicTacToe():
-    obj=TicTacToe()
-
+def TicTacToe():
+    obj=Tic_Tac_Toe()
     turn = 'X'
     x_player = obj.x_player
     y_player = obj.y_player
+    loop = True
     try:
-        while True:
+        while loop:
 
             if turn == 'X':
                 move = input(f"{x_player}'s Move : ")
@@ -171,13 +173,7 @@ def PlayTicTacToe():
                 obj.print_board(move,turn)
                 result = obj.WinCheck()
                 if result==True:
-                    m=input('Another match? y/n: ').lower()
-                    if m == 'y':
-                        os.system('cls')
-                        PlayTicTacToe()
-                    else:
-                        input('press enter to exit')
-                        sys.exit()
+                    return
                 turn = 'Y'
                 obj.total_turns+=1
                 obj.player = y_player
@@ -192,21 +188,27 @@ def PlayTicTacToe():
                 obj.print_board(move,turn)
                 result = obj.WinCheck()
                 if result==True:
-                    m=input('Another match? y/n: ').lower()
-                    if m == 'y':
-                        os.system('cls')
-                        PlayTicTacToe()
-                    elif m=='n':
-                        input('press enter to exit')
-                        sys.exit()
+                    return
+                        # loop = False
+                        # break
                 turn = 'X'
                 obj.total_turns+=1
                 obj.player = x_player
     except Exception as e:
             print(f"Error: {e}")
-            restart = input("restart the program ? y/n")
-            if restart.lower() == 'y':
-                PlayTicTacToe()
-            else:
-                quit()
-PlayTicTacToe()
+
+def PlayTicTacToe():
+    x='y'
+    loop=True
+    while loop:
+        if x=='y':
+
+            TicTacToe()
+            x=input('Play again? y/n :')
+            os.system('cls')
+        else:
+            input('press enter to go to the main menu')
+            loop=False
+
+if __name__ == "__main__":
+    PlayTicTacToe()
